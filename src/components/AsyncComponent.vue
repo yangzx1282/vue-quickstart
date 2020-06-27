@@ -1,14 +1,14 @@
 <template>
     <div>
       <is-loading v-if='isLoading'></is-loading>
-      <loading-error v-if='isError' @reload='load' :errorDetails='errorDetails'></loading-error>
-      <component :is="nowComponent" v-if='!isLoading&&!isError'></component>
+      <not-found v-if='isError' @reload='load' :errorDetails='errorDetails'></not-found>
+      <component :is="nowComponent" v-if="!isLoading && !isError" @changeLoading="changeLoading"></component>
     </div>
 </template>
 
 <script>
 import IsLoading from "./IsLoading";
-import LoadingError from "./LoadingError";
+import NotFound from "./NotFound";
 export default {
   data() {
     return {
@@ -24,14 +24,15 @@ export default {
   },
   components: {
     IsLoading,
-    LoadingError
+    NotFound
   },
   mounted() {
     this.load();
   },
   methods: {
     load() {
-      import(`@/${this.componentPath}`)
+            console.log(this.componentPath);
+       import(`@/${this.componentPath}`)
         .then(rsp => {
           setTimeout(() => {
             this.nowComponent = () => import(`@/${this.componentPath}`);
@@ -45,7 +46,14 @@ export default {
           this.isLoading = false;
           this.errorDetails = err.message;
         });
+    },
+    changeLoading() {
+      alert(1)
     }
   }
 };
 </script>
+
+<style>
+    
+</style>

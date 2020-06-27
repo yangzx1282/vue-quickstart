@@ -1,4 +1,4 @@
 import Store from './store'
-require('./menuModule')
+require('./MenuModule')
 
 export default Store;
